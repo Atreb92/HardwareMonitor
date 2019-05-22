@@ -33,6 +33,8 @@ class myServer (threading.Thread):
             print('connection from', client_address)
 
             while True:
+
+               #needs to be adjusted to handle larger dictionary data structure
                data = connection.recv(512)
                #print(format(data))
                if format(data) == "b\'GET\'":
@@ -66,7 +68,7 @@ def initialize_openhardwaremonitor():
    from OpenHardwareMonitor import Hardware
 
    handle = Hardware.Computer()
-   handle.MainboardEnabled = True
+   handle.MainboardEnabled = False
    handle.CPUEnabled = True
    handle.RAMEnabled = True
    handle.GPUEnabled = True
@@ -91,9 +93,7 @@ def update_Hardware_Info(handle):
       
       #adds to the dictionary using the previously created id as key and the hardware name as value
       hardwareInfo[out] = {'name': str(i.Name)}
-   
-   #print(json.dumps(hardwareInfo))
-      
+         
 def fetch_stats(handle):
    for i in handle.Hardware:
       #gets the index for the current hardware
@@ -138,6 +138,8 @@ thread1 = blackboardUpdaterThread()
 # Start new Threads
 thread1.start()
 
+
+#debugging
 time.sleep(5)
 updateBlackboard=False
 #thread2.start()
