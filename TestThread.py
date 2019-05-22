@@ -12,6 +12,8 @@ server_address = ('192.168.1.200', 10005)
 
 hardwareInfo = {}
 
+updateBlackboard = True
+
 class myServer (threading.Thread):
    def __init__(self):
       threading.Thread.__init__(self)
@@ -45,14 +47,16 @@ class myServer (threading.Thread):
             connection.close()
       
 
-class myThread (threading.Thread):
+class blackboardUpdaterThread (threading.Thread):
    def __init__(self):
       threading.Thread.__init__(self)
+      update_Hardware_Info(HardwareHandle)
    def run(self):
-      while 1:
+      while updateBlackboard:
          fetch_stats(HardwareHandle)
-         #print(len(json.dumps(blackboard)))
          time.sleep(1)
+         #print(hardwareInfo)
+      print('thread closing')
          
 
 def initialize_openhardwaremonitor():
@@ -126,13 +130,16 @@ update_Hardware_Info(HardwareHandle)
 fetch_stats(HardwareHandle)
 
 #converts to json, around 1600 char of information
-print(json.dumps(hardwareInfo))
-#thread1 = myThread()
+#print(json.dumps(hardwareInfo))
+thread1 = blackboardUpdaterThread()
 #thread2 = myServer()
 
 
 # Start new Threads
-#thread1.start()
+thread1.start()
+
+time.sleep(5)
+updateBlackboard=False
 #thread2.start()
 
 print ("Exiting Main Thread")
