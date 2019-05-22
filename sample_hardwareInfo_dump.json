@@ -1,0 +1,120 @@
+{
+	"mainboard": {
+		"name": "MSI Z170A KRAIT GAMING 3X (MS-7A11)"
+		}, 
+	"intelcpu0": {
+		"name": "Intel Core i7-6700K", 
+		"load": {
+			"CPU Core #1": 12.19512, 
+			"CPU Core #2": 10.97561, 
+			"CPU Core #3": 12.19512, 
+			"CPU Core #4": 13.41463, 
+			"CPU Total": 12.19512
+		},
+
+		"temperature": {
+			"CPU Core #1": 29.0, 
+			"CPU Core #2": 38.0, 
+			"CPU Core #3": 27.0, 
+			"CPU Core #4": 24.0, 
+			"CPU Package": 38.0
+		}, 
+
+		"clock": {
+			"CPU Core #1": 4509.001, 	
+			"CPU Core #2": 4509.001, 
+			"CPU Core #3": 4509.001, 
+			"CPU Core #4": 4509.001, 
+			"Bus Speed": 100.2
+		}, 
+
+		"power": {
+			"CPU Package": 35.42785, 
+			"CPU Cores": 24.26481, 
+			"CPU Graphics": 0.0, 
+			"CPU DRAM": 0.9029186
+		}
+	}, 
+
+	"ram": {
+		"name": "Generic Memory", 
+		"load": {
+			"Memory": 41.406
+			}, 
+
+			"data": {
+				"Used Memory": 6.57893, 
+				"Available Memory": 9.309902
+			}
+		}, 
+
+	"nvidiagpu0": {
+		"name": "NVIDIA GeForce GTX 1080", 
+		"temperature": {
+			"GPU Core": 31.0
+		}, 
+		
+		"fan": {
+			"GPU": 0.0
+		}, 
+		
+		"clock": {
+			"GPU Core": 139.0, 
+			"GPU Memory": 405.0, 
+			"GPU Shader": 278.0
+		}, 
+
+		"load": {
+			"GPU Core": 2.0, 
+			"GPU Memory Controller": 13.0, 
+			"GPU Video Engine": 0.0, 
+			"GPU Memory": 16.09373
+		}, 
+
+		"control": {
+			"GPU Fan": 27.0
+		}, 
+
+		"smalldata": {
+			"GPU Memory Total": 8192.0, 
+			"GPU Memory Used": 1318.398, 
+			"GPU Memory Free": 6873.602
+		}
+	}, 
+
+	"hdd0": {
+		"name": "Samsung SSD 850 EVO 500GB", 
+		"temperature": {
+			"Temperature": 36.0
+		}, 
+		
+		"data": {
+			"Total LBA Written": -205.6993
+		}, 
+		
+		"load": {
+			"Used Space": 61.84626
+		}
+	}, 
+
+	"hdd1": {
+		"name": "WDC WD20EFRX-68AX9N0", 
+		"temperature": {
+			"Temperature": 32.0
+		}, 
+
+		"load": {
+			"Used Space": 85.15053
+		}
+	}, 
+
+	"hdd2": {
+		"name": "Samsung SSD 860 EVO M.2 500GB", 
+		"temperature": {
+			"Temperature": 30.0
+		}, 
+		"data": {
+			"Total LBA Written": -237.9503
+		}
+	}
+}

@@ -9,6 +9,7 @@ import json
 
 
 server_address = ('192.168.1.200', 10005)
+
 hardwareInfo = {}
 
 class myServer (threading.Thread):
@@ -29,13 +30,12 @@ class myServer (threading.Thread):
          try:
             print('connection from', client_address)
 
-            # Receive the data in small chunks and retransmit it
             while True:
                data = connection.recv(512)
                #print(format(data))
                if format(data) == "b\'GET\'":
                   #print("ok")
-                  connection.sendall(json.dumps(blackboard).encode("utf-8"))
+                  connection.sendall(json.dumps(hardwareInfo).encode("utf-8"))
                if format(data) == "b\'\'":
                   print("client disconnected")
                   break     
@@ -62,10 +62,10 @@ def initialize_openhardwaremonitor():
    from OpenHardwareMonitor import Hardware
 
    handle = Hardware.Computer()
-   handle.MainboardEnabled = False
-   handle.CPUEnabled = False
+   handle.MainboardEnabled = True
+   handle.CPUEnabled = True
    handle.RAMEnabled = True
-   handle.GPUEnabled = False
+   handle.GPUEnabled = True
    handle.HDDEnabled = True
    handle.Open()
    
@@ -75,38 +75,64 @@ def initialize_openhardwaremonitor():
 #Function that inserts into the dictionary all current detected hardware name
 def update_Hardware_Info(handle):
    for i in handle.Hardware:
+      #converts the hardware identifiera from:
+      #example:
+      #/mainboard/0
+      #to:
+      #mainboard0
       info = str(i.Identifier).split('/')
       out = ''
       for j in info:
          out += j
-      hardwareInfo[out] = str(i.Name)
+      
+      #adds to the dictionary using the previously created id as key and the hardware name as value
+      hardwareInfo[out] = {'name': str(i.Name)}
+   
+   #print(json.dumps(hardwareInfo))
       
 def fetch_stats(handle):
    for i in handle.Hardware:
+      #gets the index for the current hardware
       info = str(i.Identifier).split('/')
+      #gets current index length
+      indexLen = len(info)
       index = ''
       for j in info:
          index += j
-      
+      #updates with recents values
+      i.Update()
       for sensor in i.Sensors:
          info = str(sensor.Identifier).split('/')
-         out = ''
-         for j in info:
-            out += j
-         #print(info)
-         print(sensor.Name)
-         print(sensor.Value)
+
+         #info[indexLen] contains the current type of value
+         #example:
+         #/hdd/2/temperature/0
+         #
+         #['', 'hdd', '2', 'temperature', '0']
+         #
+         #info[indexLen] is 'temperature'
+
+         #might not be the best usage of try/catch...
+         #try: add the value to current dictionary key, if its the first time it does the won't exsist so an error will occur
+         #except: creates a new entry for that key
+         try:
+            hardwareInfo[index][info[indexLen]][sensor.Name] = sensor.Value
+         except:
+            hardwareInfo[index][info[indexLen]] = {sensor.Name: sensor.Value}
 
    
 HardwareHandle = initialize_openhardwaremonitor()
-#update_Hardware_Info(HardwareHandle)
+update_Hardware_Info(HardwareHandle)
 fetch_stats(HardwareHandle)
-thread1 = myThread()
+
+#converts to json, around 1600 char of information
+print(json.dumps(hardwareInfo))
+#thread1 = myThread()
 #thread2 = myServer()
 
 
 # Start new Threads
-thread1.start()
+#thread1.start()
 #thread2.start()
 
 print ("Exiting Main Thread")
