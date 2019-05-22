@@ -34,21 +34,21 @@ class myServer (threading.Thread):
 
             while True:
 
-               #needs to be adjusted to handle larger dictionary data structure
-               data = connection.recv(512)
+               data = connection.recv(4096)
                #print(format(data))
                if format(data) == "b\'GET\'":
                   #print("ok")
                   connection.sendall(json.dumps(hardwareInfo).encode("utf-8"))
                if format(data) == "b\'\'":
                   print("client disconnected")
-                  break     
+                  break
+         except:
+            print("Error connection lost")     
 
          finally:
             # Clean up the connection
             connection.close()
       
-
 class blackboardUpdaterThread (threading.Thread):
    def __init__(self):
       threading.Thread.__init__(self)
@@ -58,8 +58,7 @@ class blackboardUpdaterThread (threading.Thread):
          fetch_stats(HardwareHandle)
          time.sleep(1)
          #print(hardwareInfo)
-      print('thread closing')
-         
+      print('thread closing')        
 
 def initialize_openhardwaremonitor():
    file = 'OpenHardwareMonitorLib'
@@ -76,7 +75,6 @@ def initialize_openhardwaremonitor():
    handle.Open()
    
    return handle
-
 
 #Function that inserts into the dictionary all current detected hardware name
 def update_Hardware_Info(handle):
@@ -132,7 +130,7 @@ fetch_stats(HardwareHandle)
 #converts to json, around 1600 char of information
 #print(json.dumps(hardwareInfo))
 thread1 = blackboardUpdaterThread()
-#thread2 = myServer()
+thread2 = myServer()
 
 
 # Start new Threads
@@ -140,8 +138,8 @@ thread1.start()
 
 
 #debugging
-time.sleep(5)
-updateBlackboard=False
-#thread2.start()
+#time.sleep(5)
+#updateBlackboard=False
+thread2.start()
 
 print ("Exiting Main Thread")
