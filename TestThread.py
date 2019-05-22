@@ -5,7 +5,6 @@ import time
 import socket
 import sys
 import json
-import pprint
 
 
 
@@ -73,7 +72,7 @@ def initialize_openhardwaremonitor():
    return handle
 
 
-#Metodo che inserisce nel dizionario i vari componenti hardware in uso nel Computer
+#Function that inserts into the dictionary all current detected hardware name
 def update_Hardware_Info(handle):
    for i in handle.Hardware:
       info = str(i.Identifier).split('/')
@@ -98,6 +97,8 @@ def fetch_stats(handle):
          print(sensor.Name)
          print(sensor.Value)
 
+
+#old clunky blackboard updater
 def update_blackBoard(sensor):
    if sensor.Name == 'CPU Core #1':
       if sensor.SensorType == 3:
