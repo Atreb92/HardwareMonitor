@@ -10,7 +10,6 @@ import json
 
 server_address = ('192.168.1.200', 10005)
 hardwareInfo = {}
-blackboard = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 class myServer (threading.Thread):
    def __init__(self):
@@ -53,7 +52,8 @@ class myThread (threading.Thread):
       while 1:
          fetch_stats(HardwareHandle)
          #print(len(json.dumps(blackboard)))
-         time.sleep(1) 
+         time.sleep(1)
+         
 
 def initialize_openhardwaremonitor():
    file = 'OpenHardwareMonitorLib'
@@ -97,81 +97,16 @@ def fetch_stats(handle):
          print(sensor.Name)
          print(sensor.Value)
 
-
-#old clunky blackboard updater
-def update_blackBoard(sensor):
-   if sensor.Name == 'CPU Core #1':
-      if sensor.SensorType == 3:
-         blackboard[2] = sensor.Value
-      elif sensor.SensorType == 2:
-         blackboard[4] = sensor.Value
-      elif sensor.SensorType == 1:
-         blackboard[3] = sensor.Value
-   elif sensor.Name == 'CPU Core #2':
-      if sensor.SensorType == 3:
-         blackboard[5] = sensor.Value
-      elif sensor.SensorType == 2:
-         blackboard[7] = sensor.Value
-      elif sensor.SensorType == 1:
-         blackboard[6] = sensor.Value
-   elif sensor.Name == 'CPU Core #3':
-      if sensor.SensorType == 3:
-         blackboard[8] = sensor.Value
-      elif sensor.SensorType == 2:
-         blackboard[9] = sensor.Value
-      elif sensor.SensorType == 1:
-         blackboard[10] = sensor.Value
-   elif sensor.Name == 'CPU Core #4':
-      if sensor.SensorType == 3:
-         blackboard[11] = sensor.Value
-      elif sensor.SensorType == 2:
-         blackboard[12] = sensor.Value
-      elif sensor.SensorType == 1:
-         blackboard[13] = sensor.Value
-   elif sensor.Name == 'CPU Total':
-      blackboard[0] = sensor.Value
-   elif sensor.Name == 'CPU Package':
-      if sensor.SensorType == 2:
-         blackboard[1] = sensor.Value
-   elif sensor.Name == 'GPU Core':
-      if sensor.SensorType == 2:
-         blackboard[15] = sensor.Value
-      elif sensor.SensorType == 1:
-         blackboard[17] = sensor.Value
-      elif sensor.SensorType == 3:
-         blackboard[16] = sensor.Value
-   elif sensor.Name == 'GPU Memory':
-      if sensor.SensorType == 3:
-         blackboard[18] = sensor.Value
-   elif sensor.Name.startswith('Memory'):
-      if sensor.SensorType == 3:
-         blackboard[14] = sensor.Value
-
-   else:
-      if sensor.Hardware.Name.startswith('Samsung'):
-         if sensor.SensorType == 2:
-            blackboard[19] = sensor.Value
-         elif sensor.SensorType == 3:
-            blackboard[20] = sensor.Value
-      elif sensor.Hardware.Name.startswith('WDC'):
-         if sensor.SensorType == 2:
-            blackboard[21] = sensor.Value
-         elif sensor.SensorType == 3:
-            blackboard[22] = sensor.Value
-
-
-
-# Create new threads
    
 HardwareHandle = initialize_openhardwaremonitor()
 #update_Hardware_Info(HardwareHandle)
 fetch_stats(HardwareHandle)
-#thread1 = myThread()
+thread1 = myThread()
 #thread2 = myServer()
 
 
 # Start new Threads
-#thread1.start()
+thread1.start()
 #thread2.start()
 
 print ("Exiting Main Thread")
