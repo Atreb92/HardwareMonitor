@@ -124,22 +124,23 @@ def fetch_stats(handle):
 
    
 HardwareHandle = initialize_openhardwaremonitor()
-update_Hardware_Info(HardwareHandle)
-fetch_stats(HardwareHandle)
+#update_Hardware_Info(HardwareHandle)
+#fetch_stats(HardwareHandle)
 
 #converts to json, around 1600 char of information
 #print(json.dumps(hardwareInfo))
+
 thread1 = blackboardUpdaterThread()
 thread2 = myServer()
 
 
 # Start new Threads
 thread1.start()
-
+thread2.start()
 
 #debugging
 #time.sleep(5)
 #updateBlackboard=False
-thread2.start()
+
 
 print ("Exiting Main Thread")

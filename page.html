@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+
+<style>
+    #response-container {
+        display: none;
+        padding: 3rem;
+        margin: 3rem 5rem;
+        font-size: 120%;
+        border: 5px dashed #ccc;
+    }
+
+    label {
+        margin-left: 0.3rem;
+        margin-right: 0.3rem;
+    }
+     
+    body {
+        background-image: url("background.jpg");
+    }
+
+    button {
+        font-size: 100%;
+        padding: 0.5rem;
+        margin: 0.3rem;
+        text-transform: uppercase;
+    }
+
+</style>
+</head>
+<body>
+
+    
+<h1 id="title">PC Temperature</h1>
+
+<div id="response-container"></div>
+<script>
+function update(response) {
+    var container = document.getElementById(response.id)
+
+    container.innerText = response.message
+    container.style.display = 'block'
+}
+
+function getGPUTemp() {
+    return pywebview.api.getGPUTemp().then(update)
+}
+
+var i = 0;
+
+function timedCount() {
+  i = i + 1;
+  getGPUTemp();
+  setTimeout("timedCount()",100);
+}
+
+document.addEventListener("DOMContentLoaded", function(event) { 
+  timedCount()
+});
+
+</script>
+</body>
+</html>

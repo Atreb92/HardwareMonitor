@@ -2,6 +2,11 @@
 import socket
 import sys
 import time
+import json
+
+
+hardwareInfo = {}
+
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -14,9 +19,10 @@ try:
     while True:
         # Send data
         message = b'GET'
-        print('sending {!r}'.format(message))
+        #print('sending {!r}'.format(message))
         sock.sendall(message)
-        print("recieved: " + format(sock.recv(4096)))
+        
+        hardwareInfo = json.loads(str(format(sock.recv(4096)))[2:-1])
         time.sleep(1)
     
     
